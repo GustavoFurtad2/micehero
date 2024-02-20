@@ -3,6 +3,7 @@ local files = {
     "images",
     "utils",
     "songs",
+    "game",
     "events",
 }
 
