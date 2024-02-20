@@ -1,8 +1,8 @@
 eventNewPlayer = function(name)
     Data[name] = Data[name] or DATA_STRUCTURE
     Data[name].background = tfm.exec.addImage(IMAGES.Black, ":0", 0, 0, name, 800, 400)
-    
-    Data[name].guitar = tfm.exec.addImage(IMAGES.Guitar, ":0", 150, 50, name, 0.75, 0.75)
+
+    Game(name)
 end
 
 eventLoop = function()
