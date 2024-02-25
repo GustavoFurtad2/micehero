@@ -1,9 +1,8 @@
 local files = {
     "init",
-    "images",
     "utils",
     "songs",
-    "game",
+    "player",
     "events",
 }
 

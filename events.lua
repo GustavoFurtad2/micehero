@@ -1,8 +1,22 @@
 eventNewPlayer = function(name)
-    Data[name] = Data[name] or DATA_STRUCTURE
-    Data[name].background = tfm.exec.addImage(IMAGES.Black, ":0", 0, 0, name, 800, 400)
+    Data[name] = Data[name] or Player(name)
+    Data[name]:LoadSongsList()
+end
 
-    Game(name)
+eventKeyboard = function(name, key, down, x, y)
+    if Data[name].gameState == GAMESTATE_MUSICLIST then
+        if key == KEY.UP then
+           Data[name].option = Data[name].option - 1
+           if Data[name].option < 1 then
+              Data[name].option = #SONGLIST
+           end
+        elseif key == KEY.DOWN then
+            Data[name].option = Data[name].option + 1
+            if Data[name].option > #SONGLIST then
+               Data[name].option = 1
+            end
+        end
+    end
 end
 
 eventLoop = function()

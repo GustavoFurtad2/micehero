@@ -9,17 +9,28 @@ local Data, Timers = {}, {}
 local GAMESTATE_MUSICLIST = 0
 local GAMESTATE_PLAYING   = 1
 
+local KEY = {
+     UP   = 38,
+     DOWN = 40,
+     A    = 65,
+     S    = 83,
+     J    = 75,
+     K    = 74,
+     L    = 76,
+}
 local DATA_STRUCTURE = {
 
     gameState = GAMESTATE_MUSICLIST,
 
-    option = 3,
+    option = 1,
     hits   = 0,
     misses = 0,
 
     album,
     guitar,
     gradient = {},
+
+    list = {},
 
     currentMusic,
 }
@@ -34,6 +45,6 @@ local IMAGES = {
 }
 
 local ALBUMS = {
-  ["Favourite Worst Nightmare"] = "18daa0b148c.png",
-  ["Humbug"] = "18daa0b61c4.png",
+  ["Favourite Worst Nightmare"] = {image = "18daa0b148c.png", color = "BABD2F"},
+  ["Humbug"] = {image = "18daa0b61c4.png", color = "C53DFF"},
 }
