@@ -3,6 +3,20 @@ eventNewPlayer = function(name)
     Data[name]:LoadSongsList()
 end
 
+eventTextAreaCallback = function(id, name, event)
+   if SONGLIST[id] then
+      Data[name].gameState = GAMESTATE_PLAYING
+
+      for id = 1,#SONGLIST do
+         ui.removeTextArea(id, name)
+      end
+
+      for i, v in next, Data[name].list do
+         tfm.exec.removeImage(v)
+      end
+   end
+end
+
 eventKeyboard = function(name, key, down, x, y)
     if Data[name].gameState == GAMESTATE_MUSICLIST then
         if key == KEY.UP then
