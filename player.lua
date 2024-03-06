@@ -23,7 +23,28 @@ local function Player(name)
     end
 
     function Player:Play(song)
-        Data[name].guitar = tfm.exec.addImage(IMAGES.Guitar, ":0", 150, 50, name, 0.75, 0.75)
+        Data[name].guitar = tfm.exec.addImage(IMAGES.Guitar, "?0", 150, 50, name, 0.75, 0.75, 0, 1, 0, 0, true)
+        for t = 1, 100, 2 do
+            self.gradient[t] = tfm.exec.addImage(IMAGES.BgColor, "!1", 0, 30 + t, name, 800, 2, 0, 1 - (t * 0.008))
+        end
+
+        for index, chart in next, song.charts do
+            Dolater(chart.time, function()
+                local vx = chart.speed * -0.45
+                local vy = chart.speed
+                table.insert(self.charts, {})
+                --self.charts[#self.charts].object = tfm.exec.addShamanObject(1, 360, 80, 0, vx, vy)
+                self.charts[#self.charts].object = tfm.exec.addPhysicObject(index, 360, 80, {
+                    type = 12,
+                    width = 20,
+                    height = 20,
+                    groundCollision = false,
+                    dynamic = true,
+                })
+                tfm.exec.movePhysicObject(index, 0, 0, true, vx, vy)
+                self.charts[#self.charts].image = tfm.exec.addImage(IMAGES[chart.color], "+" .. index, -30, -13, name, 0.3, 0.3, 0, 1, 0, 0, true)
+            end)
+        end
     end
     return Player
 end
