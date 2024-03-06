@@ -11,7 +11,7 @@ eventTextAreaCallback = function(id, name, event)
          ui.removeTextArea(id, name)
       end
 
-      for i, v in next, Data[name].list do
+      for i, v in next, Data[name]:GetList() do
          tfm.exec.removeImage(v)
       end
       Data[name]:Play(SONGLIST[id])

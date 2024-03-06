@@ -11,6 +11,7 @@ local function Player(name)
                 else
 	              		ui.addTextArea(id, string.format("<font color='#%s'><a href='event:%s'>%s</a>", ALBUMS[SONGLIST[id].album].color, id, song.name), name, 10, 10 + (id * 50), 300, 25, 0xf, 0xf, 1, true)
                 end
+                
             end
             if id > 1 then
                 if SONGLIST[id - 1].album ~= SONGLIST[id].album then
@@ -30,11 +31,23 @@ local function Player(name)
 
         for index, chart in next, song.charts do
             Dolater(chart.time, function()
-                local vx = chart.speed * -0.45
+
+                local vx, x = 0, nil
+                if chart.color == "green" then
+                  vx = chart.speed * -0.45
+                  x = 360
+                elseif chart.color == "red" then
+                  vx = chart.speed * -0.25
+                  x = 380
+                elseif chart.color == "yellow" then
+                  x = 385
+                end
                 local vy = chart.speed
-                table.insert(self.charts, {})
+
+                local chartIndex = #self.charts+1
+                self.charts[chartIndex] = {}
                 --self.charts[#self.charts].object = tfm.exec.addShamanObject(1, 360, 80, 0, vx, vy)
-                self.charts[#self.charts].object = tfm.exec.addPhysicObject(index, 360, 80, {
+                self.charts[chartIndex].object = tfm.exec.addPhysicObject(index, x, 90, {
                     type = 12,
                     width = 20,
                     height = 20,
@@ -42,9 +55,28 @@ local function Player(name)
                     dynamic = true,
                 })
                 tfm.exec.movePhysicObject(index, 0, 0, true, vx, vy)
-                self.charts[#self.charts].image = tfm.exec.addImage(IMAGES[chart.color], "+" .. index, -30, -13, name, 0.3, 0.3, 0, 1, 0, 0, true)
+                self.charts[chartIndex].image = tfm.exec.addImage(IMAGES[chart.color], "+" .. index, -30, -13, name, 0.265, 0.265, 0, 1, 0, 0, true)
+
+                local positionPrediction = (1000 / chart.speed)
+                Dolater(positionPrediction, function()
+                    tfm.exec.removeImage(self.charts[chartIndex].image)
+                    self.charts[chartIndex].image = tfm.exec.addImage(IMAGES[chart.color], "+" .. index, -34, -16, name, 0.325, 0.325, 0, 1, 0, 0)
+                end)
             end)
         end
+
+        for index, sound in next, song.sounds do
+            Dolater(sound.time, function()
+                for _, s in next, sound.sounds do
+                    tfm.exec.playSound(s, 100, nil, nil, name)
+                end
+                print(index)
+            end)
+        end
+    end
+
+    function Player:GetList()
+        return self.list
     end
     return Player
 end
